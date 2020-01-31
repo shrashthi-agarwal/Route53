@@ -14,7 +14,7 @@ resource "aws_route53_record" "primary" {
   }
 
   set_identifier = "${var.identifier1}"
-  records        = ["35.153.208.248"]
+  records        = ["${var.primaryip}"]
   health_check_id = "${aws_route53_health_check.primary.id}"
 }
 
@@ -29,12 +29,12 @@ resource "aws_route53_record" "secondary" {
   }
 
   set_identifier = "${var.identifier2}"
-  records        = ["35.153.208.248"]
+  records        = ["${var.secondaryip}"]
   health_check_id = "${aws_route53_health_check.secondary.id}"
 }
 
 resource "aws_route53_health_check" "primary" {
-  ip_address        = "35.153.208.248"
+  ip_address        = "${var.primaryip}"
   port              = 80
   type              = "HTTP"
   resource_path     = "/"
@@ -47,7 +47,7 @@ resource "aws_route53_health_check" "primary" {
 }
 
 resource "aws_route53_health_check" "secondary" {
-  ip_address        = "35.153.208.248"
+  ip_address        = "${var.secondaryip}"
   port              = 80
   type              = "HTTP"
   resource_path     = "/"
